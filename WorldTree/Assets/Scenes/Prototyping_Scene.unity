@@ -679,7 +679,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 945120461}
   m_Father: {fileID: 2096431193}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -775,7 +776,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rb: {fileID: 399998540}
-  _speed: 5
+  speed: 10
+  dashSpeed: 5
+  currentTime: 0
+  resetTime: 10
+  move: {x: 0, y: 0, z: 0}
+  isDashing: 0
+  dashOnCoolDown: 0
 --- !u!1 &474972517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1345,13 +1352,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 945120460}
   m_LocalRotation: {x: 0.19996412, y: 0.3736123, z: -0.08282785, w: 0.90198}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 961739753}
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_Father: {fileID: 399998536}
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 25, y: 45, z: 0}
 --- !u!1 &961739749
 GameObject:
