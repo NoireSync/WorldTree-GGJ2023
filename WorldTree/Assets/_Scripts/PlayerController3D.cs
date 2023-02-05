@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerController3D : MonoBehaviour
 {
+    public GolemAI golemai;
+    public CameraShake shake;
+
     [SerializeField] private CharacterController characterController;
 
     [SerializeField] private Rigidbody _rb;
@@ -17,9 +21,11 @@ public class PlayerController3D : MonoBehaviour
 
     [SerializeField] private Vector3 move;
 
-
     [SerializeField] private bool isDashing;
     [SerializeField] private bool dashOnCoolDown;
+
+    public int points = 0;
+    public TextMeshProUGUI acornCounter;
     
 
     private void Start()
@@ -33,24 +39,28 @@ public class PlayerController3D : MonoBehaviour
 
     private void Update()
     {
+        points += points;
+        acornCounter.text = points.ToString();
+
+
         // Changed input settings to refect iso movement
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
         move = new Vector3(horizontal, 0, vertical);
+        
         characterController.Move(move * speed * Time.deltaTime);
-        //_rb.AddForce( move * speed * Time.deltaTime);
+
+        if (move != Vector3.zero)
+        { 
+            transform.forward = move;
+        }
 
         if (Input.GetKeyDown(KeyCode.Space) && !dashOnCoolDown)
         {
             //Can only dash if moving
             StartCoroutine(DashCoroutine(move));
         }
-
-        /*if (isDashing)
-        {
-           StartCoroutine(DashCoroutine());
-        }*/
 
         if (dashOnCoolDown)
         {
@@ -73,6 +83,7 @@ public class PlayerController3D : MonoBehaviour
         while (Time.time < startTime + dashTime)
         {
             // Add screenShake
+            shake.shouldShake = true;
             characterController.Move(direction * dashSpeed * Time.deltaTime);
             
             //isDashing = false;

@@ -2,15 +2,24 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Ellen_Body_Mat_Ramp
   m_Shader: {fileID: 4800000, guid: e88aeddd2ef1f934d805981244872e27, type: 3}
-  m_ShaderKeywords: _EMISSION _HALFTONESHAPE_STRIPE _NORMALMAP _OCCLUSIONMAP _OUTLINE
-    _RIMLIGHTING_ON
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _EMISSION
+  - _HALFTONESHAPE_STRIPE
+  - _NORMALMAP
+  - _OUTLINE
+  - _RIMLIGHTING_ON
+  m_InvalidKeywords:
+  - _OCCLUSIONMAP
+  - _STEPVIARAMPTEXTURE_ON
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -18,6 +27,7 @@ Material:
   stringTagMap:
     RenderType: Opaque
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -47,6 +57,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 2800000, guid: 6681c4175d4d3bb43adbbb88f517a813, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FaceShadowMap:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _HairSpecNoiseMap:
@@ -105,6 +119,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _AlphaClip: 0
     - _Blend: 0
@@ -118,9 +133,15 @@ Material:
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DiffuseStep: -0.051
+    - _DitherTexelSize: 1
+    - _DitherThreshold: 1
     - _DstBlend: 0
     - _EnabledHairSpec: 0
     - _EnvironmentReflections: 1
+    - _FaceShadowMapEnabled: 0
+    - _FaceShadowMapPow: 0.2
+    - _FaceShadowSmoothness: 0
+    - _FlattenGI: 0
     - _GlossMapScale: 0.9
     - _Glossiness: 0.5
     - _GlossinessSource: 0
@@ -134,7 +155,10 @@ Material:
     - _HalfToneIncludeReceivedShadow: 1
     - _HalfToneShape: 1
     - _HalfToneUvMode: 1
+    - _HalftoneFadeDistance: 10
+    - _HalftoneFadeToColor: 0
     - _HalftoneNoiseClip: 0
+    - _HalftoneTilling: 8
     - _HatchingDensity: 1
     - _HatchingDiffuseOffset: 0
     - _HatchingDrawStrength: 1
@@ -186,10 +210,13 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 3.7586205, b: 5.0000005, a: 1}
+    - _FaceFrontDirection: {r: 0, g: 0, b: 1, a: 0}
+    - _FaceRightDirection: {r: 1, g: 0, b: 0, a: 0}
     - _HairSpecColor: {r: 0, g: 0, b: 0, a: 1}
     - _HalfToneColor: {r: 1, g: 1, b: 1, a: 0.42745098}
     - _HatchingColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
+    - _OutlineDistancFade: {r: -25, g: 50, b: 0, a: 0}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShadowColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 0.5}

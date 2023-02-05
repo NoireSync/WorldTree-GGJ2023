@@ -5,14 +5,13 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    PlayerController3D controller;
+    public PlayerController3D controller;
+    public CameraShake shake;
 
     [SerializeField] private Transform slashSpawnPoint;
     [SerializeField] private GameObject slashPrefab;
 
-    [SerializeField] private Transform bulletSpawnPoint;
-    [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private float bulletSpeed = 10;
+    public float playerDMG = 10f;
 
     // Start is called before the first frame update
     void Start()
@@ -26,25 +25,20 @@ public class PlayerAttack : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             // Left click
-            LightAttack();
-        }
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            // Right click
-            ProjectileAttack();
+            //LightAttack();
+            StartCoroutine(SlashCoroutine());
         }
     }
 
-    private void LightAttack()
-    {
-        
-    }
-    private void ProjectileAttack()
-    {
-        //var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
-        //bullet.GetComponent<Rigidbody>().velocity = bulletSpawnPoint.forward * bulletSpeed;
-    }
 
-    
+    private IEnumerator SlashCoroutine()
+    {
+        shake.shouldShake = true;
+        var slash = Instantiate(slashPrefab, transform.position, transform.rotation);  
+        slash.GetComponent<Rigidbody>().velocity = slashSpawnPoint.forward;
+
+        Destroy(slash,1);
+
+        yield return null;
+    }
 }
