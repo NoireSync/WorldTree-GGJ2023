@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class PlayerController3D : MonoBehaviour
 {
+    [SerializeField] private CharacterController characterController;
+
     [SerializeField] private Rigidbody _rb;
+
     [SerializeField] private float speed = 5f;
+
     [SerializeField] private float dashSpeed = 10f;
+    [SerializeField] private float dashTime = .25f;
     [SerializeField] private float currentTime = 0f;
     [SerializeField] private float resetTime = 5f;
 
@@ -19,7 +24,8 @@ public class PlayerController3D : MonoBehaviour
 
     private void Start()
     {
-        _rb = GetComponent<Rigidbody>();
+        //_rb = GetComponent<Rigidbody>();
+        characterController = GetComponent<CharacterController>();
 
         currentTime = resetTime;
 
@@ -27,10 +33,24 @@ public class PlayerController3D : MonoBehaviour
 
     private void Update()
     {
+        // Changed input settings to refect iso movement
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+
+        move = new Vector3(horizontal, 0, vertical);
+        characterController.Move(move * speed * Time.deltaTime);
+        //_rb.AddForce( move * speed * Time.deltaTime);
+
         if (Input.GetKeyDown(KeyCode.Space) && !dashOnCoolDown)
         {
-            isDashing = true;
+            //Can only dash if moving
+            StartCoroutine(DashCoroutine(move));
         }
+
+        /*if (isDashing)
+        {
+           StartCoroutine(DashCoroutine());
+        }*/
 
         if (dashOnCoolDown)
         {
@@ -47,25 +67,23 @@ public class PlayerController3D : MonoBehaviour
        
     }
 
-    private void FixedUpdate()
+    private IEnumerator DashCoroutine(Vector3 direction)
     {
-        // Changed input settings to refect iso movement
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-
-        move = new Vector3(horizontal, 0, vertical);
-        _rb.MovePosition(transform.position + move * Time.deltaTime * speed);
-
-        if (isDashing)
+        float startTime = Time.time; // need to remember this to know how long to dash
+        while (Time.time < startTime + dashTime)
         {
-            _rb.MovePosition(transform.position + move * dashSpeed);
-            isDashing = false;
+            // Add screenShake
+            characterController.Move(direction * dashSpeed * Time.deltaTime);
+            
+            //isDashing = false;
 
             dashOnCoolDown = true;
+
+            // disable and re-enable collider 
+
+            yield return null; // this will make Unity stop here and continue next frame
         }
-       
     }
 
-   
 }
 
