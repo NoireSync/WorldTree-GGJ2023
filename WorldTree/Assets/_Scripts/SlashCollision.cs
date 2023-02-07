@@ -2,16 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// NOTE: This script controls player's attack effect and damage logic
+
 public class SlashCollision : MonoBehaviour
 {
-    public EnemyHealth eHealth;
-    public PlayerAttack dmg;
+    [SerializeField] private EnemyHealth eHealth;
+    [SerializeField] private PlayerAttack playerAttack;
 
+    public int dmgAmount;
 
     private void Awake()
     {
         eHealth = GameObject.Find("Golem").GetComponent<EnemyHealth>();
-        dmg = GameObject.Find("Player").GetComponent<PlayerAttack>();
+        playerAttack = GameObject.Find("Player").GetComponent<PlayerAttack>();
+    }
+
+    private void Update()
+    {
+        dmgAmount = playerAttack.playerDMG;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -20,8 +28,8 @@ public class SlashCollision : MonoBehaviour
         {
             if (other != null)
             {
-                Debug.Log("Slashes");
-                eHealth.enemyHealth -= dmg.playerDMG;
+                eHealth.TakeDamage(dmgAmount);
+                Debug.Log("Slashed Enemy");
             }
         }
     }

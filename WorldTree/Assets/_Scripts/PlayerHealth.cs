@@ -3,46 +3,73 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class PlayerHealth : MonoBehaviour
 {
-    [SerializeField] private PlayerController3D controller3D;
-    public Transform playerMoveScript;
+    [SerializeField] private UpgradeManager upgradeManager;
 
-    public int playerHealth = 50;
-    public int maxHP;
-    public int currentHP;
+    [SerializeField] private int currentMaxHealth = 30;
+    [SerializeField] private int currentHealth;
 
-    public Slider slider;
+    //bool damaged;
 
-    private void Start()
+    public HealthBar healthBar;
+
+    public int dmgTaken;
+
+    public bool playerDied = false;
+
+    void Start()
     {
-        currentHP = playerHealth = 50;
-    
-}
+        upgradeManager = GameObject.Find("Upgrade Mangaer").GetComponent<UpgradeManager>();
 
-    private void Update()
+        currentMaxHealth = upgradeManager.hpUpgrade;
+        currentHealth = currentMaxHealth;
+        healthBar.SetMaxHealth(currentMaxHealth);
+    }
+
+    void Update()
     {
-
-        if (playerHealth <= 0)
+        if (upgradeManager.hpUpgraded)
         {
-            controller3D.enabled = false;
-
-            //Popup menu
-            //restart
+            UpdateHp();
         }
     }
 
-    public void SetHealth(int Hp)
+    private void UpdateHp()
     {
-        Hp = playerHealth;
-        slider.value = Hp;
+        currentMaxHealth = upgradeManager.hpUpgrade;
+        currentHealth = currentMaxHealth;
+        healthBar.SetMaxHealth(currentMaxHealth);
     }
 
-    public void MaxHp(int Hp)
+    private void OnTriggerEnter(Collider other)
     {
-        Hp = playerHealth;
-        slider.maxValue = Hp;
-        slider.value = Hp;
+        if (other.tag == "Golem")
+        {
+            TakeDamage(dmgTaken);
+        }
     }
+    public void TakeDamage(int dmgTaken)
+    {
+
+        //Debug.Log("I was hit!");
+        currentHealth -= dmgTaken;
+        //damaged = true;
+        healthBar.SetHealth(currentHealth);
+
+        if (currentHealth <= 0)
+        {
+            Death();
+        }
+    }
+
+
+    void Death()
+    {
+        playerDied = true;
+        this.gameObject.SetActive(false);
+    }
+
 }

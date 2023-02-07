@@ -3,30 +3,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// NOTE: This script controls player's attack logic
+
 public class PlayerAttack : MonoBehaviour
 {
-    public PlayerController3D controller;
-    public CameraShake shake;
+    [SerializeField] private UpgradeManager upgradeManager;
+
+    [SerializeField] private PlayerController3D controller;
+    
+    [SerializeField] private CameraShake shake;
 
     [SerializeField] private Transform slashSpawnPoint;
     [SerializeField] private GameObject slashPrefab;
 
-    public float playerDMG = 10f;
+    public int playerDMG;
+
+    public float timeBetweenPress = .5f;
+    private float timestamp;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        upgradeManager = GameObject.Find("Upgrade Mangaer").GetComponent<UpgradeManager>();
         
+        playerDMG = upgradeManager.atkDmgUpgrade;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        playerDMG = upgradeManager.atkDmgUpgrade;
+
+        if (Time.time >= timestamp && Input.GetMouseButtonDown(0))
         {
             // Left click
             //LightAttack();
             StartCoroutine(SlashCoroutine());
+            timestamp = Time.time + timeBetweenPress;
         }
     }
 

@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+// NOTE: This script controls player's movement and movement upgrade logic
+
 public class PlayerController3D : MonoBehaviour
 {
-    public GolemAI golemai;
-    public CameraShake shake;
+    [SerializeField] private GolemAI golemai;
+    [SerializeField] private CameraShake shake;
+
+    [SerializeField] private UpgradeManager upgradeManager;
 
     [SerializeField] private CharacterController characterController;
 
@@ -17,31 +21,28 @@ public class PlayerController3D : MonoBehaviour
     [SerializeField] private float dashSpeed = 10f;
     [SerializeField] private float dashTime = .25f;
     [SerializeField] private float currentTime = 0f;
-    [SerializeField] private float resetTime = 5f;
+    [SerializeField] private float resetTime = 10f;
 
     [SerializeField] private Vector3 move;
 
     [SerializeField] private bool isDashing;
     [SerializeField] private bool dashOnCoolDown;
 
-    public int points = 0;
-    public TextMeshProUGUI acornCounter;
-    
 
     private void Start()
     {
         //_rb = GetComponent<Rigidbody>();
         characterController = GetComponent<CharacterController>();
 
+        resetTime = upgradeManager.dashUpgrade;
         currentTime = resetTime;
 
     }
 
     private void Update()
     {
-        points += points;
-        acornCounter.text = points.ToString();
-
+        resetTime = upgradeManager.dashUpgrade;
+        currentTime = resetTime;
 
         // Changed input settings to refect iso movement
         float horizontal = Input.GetAxis("Horizontal");
